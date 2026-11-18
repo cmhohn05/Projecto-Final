@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
   setupTimeline();
   setupSwitch();
   setupQuiz();
+  setupPlan();
+  setupScrollHelpers();
 });
 
 /* 01 · Mapa de espejos — accessible tabs (click + arrow keys) */
@@ -76,10 +78,37 @@ function setupQuiz() {
   var scoreEl = quiz.querySelector("[data-score]");
   var questions = Array.prototype.slice.call(quiz.querySelectorAll(".question"));
 
+  var resultEl = quiz.querySelector("[data-quiz-result]");
+  var resetBtn = quiz.querySelector("[data-quiz-reset]");
+
   function updateScore() {
     var score = questions.filter(function (q) { return q.dataset.result === "ok"; }).length;
+    var answered = questions.filter(function (q) { return q.dataset.result; }).length;
     scoreEl.textContent = score;
+    if (answered < questions.length) { resultEl.textContent = ""; return; }
+    if (score === questions.length) {
+      resultEl.textContent = "¡Perfecto! Estás despierto. Marca el quiz en tu plan de estudio.";
+    } else if (score >= questions.length - 1) {
+      resultEl.textContent = "¡Casi! Revisa la pregunta que fallaste y vuelve a intentarlo.";
+    } else {
+      resultEl.textContent = "Repasa el mapa de espejos y el interruptor, y vuelve a intentarlo.";
+    }
   }
+
+  resetBtn.addEventListener("click", function () {
+    questions.forEach(function (q) {
+      delete q.dataset.result;
+      q.querySelectorAll(".option").forEach(function (o) {
+        o.setAttribute("aria-pressed", "false");
+        o.classList.remove("is-correct", "is-wrong");
+      });
+      var fb = q.querySelector(".feedback");
+      fb.className = "feedback";
+      fb.innerHTML = "";
+    });
+    updateScore();
+    questions[0].querySelector(".option").focus();
+  });
 
   questions.forEach(function (q) {
     var correct = Number(q.dataset.correct);
@@ -101,4 +130,54 @@ function setupQuiz() {
       });
     });
   });
+}
+
+/* 00 · Plan de estudio — checklist saved in this browser */
+function setupPlan() {
+  var plan = document.querySelector("[data-plan]");
+  if (!plan) return;
+  var KEY = "lecturas-en-espejo:plan";
+  var boxes = Array.prototype.slice.call(plan.querySelectorAll('input[type="checkbox"]'));
+  var countEl = plan.querySelector("[data-plan-count]");
+  var barEl = plan.querySelector("[data-plan-bar]");
+
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { saved = {}; }
+
+  function update() {
+    var done = boxes.filter(function (b) { return b.checked; }).length;
+    countEl.textContent = done;
+    barEl.style.width = (done / boxes.length) * 100 + "%";
+  }
+
+  boxes.forEach(function (box) {
+    box.checked = !!saved[box.id];
+    box.addEventListener("change", function () {
+      saved[box.id] = box.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) { /* storage blocked: still works for this visit */ }
+      update();
+    });
+  });
+  update();
+}
+
+/* Reading-progress bar in the header + "back to top" button */
+function setupScrollHelpers() {
+  var bar = document.querySelector("[data-read-progress]");
+  var toTop = document.querySelector("[data-to-top]");
+  var ticking = false;
+
+  function onScroll() {
+    var doc = document.documentElement;
+    var max = doc.scrollHeight - doc.clientHeight;
+    var pct = max > 0 ? (doc.scrollTop / max) * 100 : 0;
+    if (bar) bar.style.width = pct + "%";
+    if (toTop) toTop.classList.toggle("is-visible", doc.scrollTop > 800);
+    ticking = false;
+  }
+
+  window.addEventListener("scroll", function () {
+    if (!ticking) { window.requestAnimationFrame(onScroll); ticking = true; }
+  }, { passive: true });
+  onScroll();
 }
