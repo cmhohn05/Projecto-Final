@@ -22,5 +22,4 @@ Abre `index.html` en el navegador (doble clic). No hace falta servidor.
 
 ## Pendiente
 
-- Footer: reemplazar `[Nombre del curso]`.
-- Obras citadas: completar o verificar las entradas marcadas `[Completar datos]` / `[Por verificar]`.
+- Obras citadas: completar la entrada del Boom (`[Completar datos]`) y el año de la 7.ª ed. de *Aproximaciones*.
