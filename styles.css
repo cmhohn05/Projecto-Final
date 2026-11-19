@@ -181,6 +181,8 @@ img { display: block; max-width: 100%; height: auto; }
 .hero { position: relative; height: clamp(28rem, 72vh, 42rem); background: var(--night); overflow: hidden; }
 .hero__media { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; }
 .hero__half { position: relative; overflow: hidden; }
+.hero__half--city { background: #3B4650; }
+.hero__half--jungle { background: #111914; }
 .hero__half img { width: 100%; height: 100%; object-fit: cover; }
 .hero__half::after { content: ""; position: absolute; inset: 0; }
 .hero__half--city img { filter: grayscale(1) contrast(1.08) brightness(0.92); }
@@ -418,6 +420,7 @@ img { display: block; max-width: 100%; height: auto; }
 }
 .feature--reverse { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
 .feature--reverse .feature__figure { order: 2; }
+.feature:has(> .feature__figure[hidden]) { grid-template-columns: minmax(0, 1fr); }
 .feature__figure img { width: 100%; border: 1px solid var(--rule); background: var(--surface); }
 .feature__figure--portrait { max-width: 360px; justify-self: center; }
 .feature__figure figcaption { margin-top: 10px; font-size: 0.82rem; color: var(--muted); }
