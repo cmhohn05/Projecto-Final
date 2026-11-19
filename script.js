@@ -87,11 +87,11 @@ function setupQuiz() {
     scoreEl.textContent = score;
     if (answered < questions.length) { resultEl.textContent = ""; return; }
     if (score === questions.length) {
-      resultEl.textContent = "¡Perfecto! Estás despierto. Marca el quiz en tu plan de estudio.";
+      resultEl.textContent = "4 de 4. Estabas bien despierto. Ya puedes marcar el quiz en tu plan.";
     } else if (score >= questions.length - 1) {
-      resultEl.textContent = "¡Casi! Revisa la pregunta que fallaste y vuelve a intentarlo.";
+      resultEl.textContent = "Casi. Revisa la pregunta que fallaste y vuelve a intentarlo.";
     } else {
-      resultEl.textContent = "Repasa el mapa de espejos y el interruptor, y vuelve a intentarlo.";
+      resultEl.textContent = "Vuelve a mirar el mapa de espejos y el final, y luego inténtalo otra vez.";
     }
   }
 

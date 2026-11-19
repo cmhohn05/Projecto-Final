@@ -1,14 +1,15 @@
-# Lecturas en Espejo — «La noche boca arriba»
+# Lecturas en Espejo · «La noche boca arriba»
 
-Guía interactiva de lectura del cuento de Julio Cortázar, para AP Spanish Literature.
+Guía de lectura del cuento de Julio Cortázar para estudiantes de AP Spanish Literature.
 
 Es un sitio estático: solo HTML, CSS y JavaScript, sin dependencias ni compilación.
 
-| Archivo      | Qué contiene                                              |
-|--------------|-----------------------------------------------------------|
-| `index.html` | Todo el contenido de la guía                              |
-| `styles.css` | Colores (variables en `:root`), tipografía y diseño       |
-| `script.js`  | Pestañas, línea del tiempo, interruptor del final y quiz  |
+| Archivo      | Qué tiene                                                       |
+|--------------|-----------------------------------------------------------------|
+| `index.html` | Todo el texto de la guía                                        |
+| `styles.css` | Colores (variables en `:root`), tipografía y diseño             |
+| `script.js`  | Pestañas, escenas, interruptor del final, plan de estudio y quiz |
+| `img/`       | Fotos e imágenes (créditos al final de la página)               |
 
 ## Verlo
 
